@@ -56,7 +56,8 @@ temp.real = ele1->real + ele2->real;
 temp.imaginary = ele1->imaginary + ele2->imaginary;
 return temp;
 }
-
+#define PI 3.14
+#define AREA(r) PI*((r)*(r))
 int main(void)
 {
 /********Question1- FillStruct ********/
@@ -82,5 +83,9 @@ printf("result is %.2f+%.2fi\n",result.real,result.imaginary);
 /******Question4    -  Find the Output of this program*/
 printf("size of union =%d\n",sizeof(u));     //Answer is 32 bytes
 printf("size of structure =%d\n",sizeof(s)); //Answer is 40 bytes , no padding as we first allocate 32btyes then the compiler need to allocate another 4 bytes but the current memory address will be aligned with words (will be an address which is multipler of 4 so the compiler will not do any padding as at the current address it can use simply the strword assembly instruction directly by considering this is a 32 bit architecture and the float , int sizes are 4 bytes)
+
+/* Question5 - Find the area of a circle giveb its radius using macros*/
+int radius = 5;
+printf("area is %.2f\n", AREA(radius));
 
 }
