@@ -1,0 +1,1 @@
+extern void CAN_Init(void);
