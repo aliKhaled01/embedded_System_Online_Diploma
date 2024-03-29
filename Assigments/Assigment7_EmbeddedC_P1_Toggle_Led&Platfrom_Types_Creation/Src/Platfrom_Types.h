@@ -1,6 +1,5 @@
 #ifndef PLATFROM_TYPES_H
 #define PLATFROM_TYPES_H
-#endif
 /*AUTOSAR specifcation version 4.3.1*/
 #define PLATFROM_TYPES_AR_REALSE_MAJOR_VERSION 4
 #define PLATFROM_TYPES_AR_REALSE_MINOR_VERSION 3
@@ -42,4 +41,5 @@ typedef unsigned char boolean;
 #define FALSE    0
 #endif
 
+#endif
 
