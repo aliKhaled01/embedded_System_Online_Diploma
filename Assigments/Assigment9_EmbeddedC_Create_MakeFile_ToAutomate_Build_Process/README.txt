@@ -1,0 +1,1 @@
+This assigment is to create generic make file to automate any build process

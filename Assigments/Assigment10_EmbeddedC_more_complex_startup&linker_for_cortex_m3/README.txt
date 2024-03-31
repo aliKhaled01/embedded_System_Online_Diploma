@@ -1,0 +1,1 @@
+This assigment is to create more complex startup and linker file for arm cortex-m3 and use them for a baremetal application
