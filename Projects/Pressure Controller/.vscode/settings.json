@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "state.h": "c",
+        "platfrom_types.h": "c",
+        "pressure_interfacing.h": "c",
+        "driver.h": "c",
+        "alarm_monitoring.h": "c",
+        "hpressure_avoidance.h": "c",
+        "stdint.h": "c"
+    }
+}
