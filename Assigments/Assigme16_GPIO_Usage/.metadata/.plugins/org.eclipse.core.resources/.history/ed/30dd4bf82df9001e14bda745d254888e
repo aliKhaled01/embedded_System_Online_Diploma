@@ -1,0 +1,48 @@
+#include "Platfrom_Types.h"
+
+#define RCC_BASE 0x40021000
+#define RCC_APB2ENR *(volatile uint32*) (RCC_BASE +0x18)
+#define RCC_IOPAEN (1<<2)
+#define RCC_AFIOPAEN (1<<0)
+
+#define GPIOA_BASE 0x40010800
+#define GPIOA_CRH *(volatile uint32*) (GPIOA_BASE +0x04)
+#define GPIOA_ODR *(volatile uint32*) (GPIOA_BASE +0x0C)
+#define GPIOA_CRL *(volatile uint32*) (GPIOA_BASE +0x00)
+#define GPIOA_IDR *(volatile uint32*) (GPIOA_BASE +0x08)
+#define GPIOA13 (1UL<<13)
+
+#define GPIOB_BASE 0x40010C00
+#define GPIOB_CRH *(volatile uint32*) (GPIOB_BASE +0x04)
+#define GPIOB_ODR *(volatile uint32*) (GPIOB_BASE +0x0C)
+#define GPIOB_CRL *(volatile uint32*) (GPIOB_BASE +0x00)
+#define GPIOB_IDR *(volatile uint32*) (GPIOB_BASE +0x08)
+
+void clock_init(void)
+{
+	/*Enable the clock for GPIOA  on APB2 BUS*/
+	RCC_APB2ENR|=RCC_IOPAEN;
+
+	/*Enable the clock for AFIO on APB2 BUS*/
+	RCC_APB2ENR|=RCC_AFIOPAEN;
+}
+void GPIO_init(void)
+{
+	/*Pin 13 PORTA is output */
+	GPIOA_CRH &=0xFF0FFFFF;
+	GPIOA_CRH |=0x00200000;
+
+	/*
+	 * Pin0 for PORTA  input , floating
+	 */
+	GPIOA_CRL|=(1<<2);
+}
+
+int main(void)
+{
+clock_init();
+GPIO_init();
+;
+while(1);
+
+}
