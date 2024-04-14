@@ -1,13 +1,21 @@
 #ifndef STM32F103C6_H
 #define STM32F103C6_H
 /*********************************INCLUDES**************************************/
-#include "Platfrom_Types.h"
+#include "platform_types.h"
 /***************************MEMORIES BASE ADDRESSES  ***************************/
 #define FLASH_MEMORY_BASE_ADDRESS 								0x08000000UL
 #define SYSTEM_MEMORY_BASE_ADDRESS 								0x1FFFF000UL
 #define SRAM_MEMORY_BASE_ADDRESS 								0x20000000UL
 #define PERIPHRALS_BASE_ADDRESS 								0x40000000UL
 #define CORTEX_M3_INTERNAL_PERIPHRALS_BASE_ADDRESS 				0xE0000000UL
+//NVIC register map
+#define NVIC_BASE_ADDRESS										0xE000E100UL
+#define NVIC_ISER0												*((volatile uint32*)(NVIC_BASE_ADDRESS+0x0))
+#define NVIC_ISER1												*((volatile uint32*)(NVIC_BASE_ADDRESS+0x4))
+#define NVIC_ISER2												*((volatile uint32*)(NVIC_BASE_ADDRESS+0x8))
+#define NVIC_ICER0												*((volatile uint32*)(NVIC_BASE_ADDRESS+0x80))
+#define NVIC_ICER1												*((volatile uint32*)(NVIC_BASE_ADDRESS+0x84))
+#define NVIC_ICER2												*((volatile uint32*)(NVIC_BASE_ADDRESS+0x88))
 
 /***************************PERIPHERALS BASE ADDRESSES AT ABP2 BUS ***************************/
 
@@ -77,7 +85,7 @@ typedef struct
 {
 	volatile uint32 IMR;
 	volatile uint32 EMR;
-	volatile uint32 RSTR;
+	volatile uint32 RTSR;
 	volatile uint32 FTSR;
 	volatile uint32 SWIER;
 	volatile uint32 PR;
@@ -90,11 +98,7 @@ typedef struct
 {
 	volatile uint32 EVCR;
 	volatile uint32 MAPR;
-	volatile uint32 EXTICR1;
-	volatile uint32 EXTICR2;
-	volatile uint32 EXTICR3;
-	volatile uint32 EXTICR4;
-	volatile uint32 EXTICR5;	//0x14 offset
+	volatile uint32 EXTICR[4];
 	uint32 			reserved;
 	volatile uint32 MAPR2;		//0x1c offset
 }Dt_AFIO;
@@ -107,7 +111,7 @@ typedef struct
 #define GPIOE 							 ((Dt_GPIO*)GPIOE_BASE_ADDRESS)
 #define RCC								 ((Dt_RCC*)RCC_BASE_ADDRESS)
 #define AFIO							 ((Dt_AFIO*)AFIO_BASE_ADDRESS)
-#define EXTI							 ((Dt_RCC*)EXTI_BASE_ADDRESS)
+#define EXTI							 ((Dt_EXTI*)EXTI_BASE_ADDRESS)
 
 /***********************************CLOCK ENABLE MACROS******************************************************/
 #define RCC_GPIOA_CLOCK_EN()	(RCC->APB2ENR|=(1<<2))
@@ -115,7 +119,48 @@ typedef struct
 #define RCC_GPIOC_CLOCK_EN()	(RCC->APB2ENR|=(1<<4))
 #define RCC_GPIOD_CLOCK_EN()	(RCC->APB2ENR|=(1<<5))
 #define RCC_GPIOE_CLOCK_EN()	(RCC->APB2ENR|=(1<<6))
-#define AFIO_CLOCK_EN()			(RCC->APB2ENR|=(1<<0))
+#define RCC_AFIO_CLOCK_EN()			(RCC->APB2ENR|=(1<<0))
+
+/***********************************NVIC ENABLE/DISABLE MACROS******************************************************/
+#define NVIC_IRQ6_EXTI0_ENABLE()		(NVIC_ISER0|=(1<<6))
+#define NVIC_IRQ7_EXTI1_ENABLE()		(NVIC_ISER0|=(1<<7))
+#define NVIC_IRQ8_EXTI2_ENABLE()		(NVIC_ISER0|=(1<<8))
+#define NVIC_IRQ9_EXTI3_ENABLE()		(NVIC_ISER0|=(1<<9))
+#define NVIC_IRQ10_EXTI4_ENABLE()		(NVIC_ISER0|=(1<<10))
+#define NVIC_IRQ23_EXTI5_9_ENABLE()		(NVIC_ISER0|=(1<<23))
+#define NVIC_IRQ40_EXTI10_15_ENABLE()	(NVIC_ISER1|=(1<<8))
+
+#define NVIC_IRQ6_EXTI0_DISABLE()		(NVIC_ICER0|=(1<<6))
+#define NVIC_IRQ7_EXTI1_DISABLE()		(NVIC_ICER0|=(1<<7))
+#define NVIC_IRQ8_EXTI2_DISABLE()		(NVIC_ICER0|=(1<<8))
+#define NVIC_IRQ9_EXTI3_DISABLE()		(NVIC_ICER0|=(1<<9))
+#define NVIC_IRQ10_EXTI4_DISABLE()		(NVIC_ICER0|=(1<<10))
+#define NVIC_IRQ23_EXTI5_9_DISABLE()	(NVIC_ICER0|=(1<<23))
+#define NVIC_IRQ40_EXTI10_15_DISABLE()	(NVIC_ICER1|=(1<<8))
 
 
+/********************************Interrupt Vector Table( IVT) *******************************************/
+//IRQs - EXTI
+#define EXTI0_IRQ				6
+#define EXTI1_IRQ				7
+#define EXTI2_IRQ				8
+#define EXTI3_IRQ				9
+#define EXTI4_IRQ				10
+#define EXTI5_IRQ				23
+#define EXTI6_IRQ				23
+#define EXTI7_IRQ				23
+#define EXTI8_IRQ				23
+#define EXTI9_IRQ				23
+#define EXTI10_IRQ				40
+#define EXTI11_IRQ				40
+#define EXTI12_IRQ				40
+#define EXTI13_IRQ				40
+#define EXTI14_IRQ				40
+#define EXTI15_IRQ				40
+
+/***********************************Generic MACROS******************************************************/
+#define GET_CORRESPONDING_EXTI_VALUE(x) 	( (x==GPIOA)?0:\
+		(x==GPIOB)?1:\
+		(x==GPIOC)?2:\
+		(x==GPIOD)?3:0 )
 #endif

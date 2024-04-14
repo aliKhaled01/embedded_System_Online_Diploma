@@ -1,5 +1,6 @@
-#include "STM32F103C6_GPIO_Driver.h"
+#include "stm32f103c6_gpio_driver.h"
 
+/****************************** APIs Functions Definitions**********************************/
 uint8 Get_CRLH_Position(uint16 PinNumber)
 {
 	switch(PinNumber)

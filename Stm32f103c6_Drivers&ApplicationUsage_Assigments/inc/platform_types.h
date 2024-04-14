@@ -21,13 +21,13 @@ Byte order defination
 /*
 *Typde defenations
 */
-typedef signed char sint8;          /*-128 to 127*/  
-typedef unsigned char uint8;        /* 0 to 255*/ 
+typedef signed char sint8;          /*-128 to 127*/
+typedef unsigned char uint8;        /* 0 to 255*/
 typedef signed short sint16;        /* -32768 to 32767*/
 typedef unsigned short uint16;      /* 0 to 65535*/
 typedef signed long sint32;         /* -2147483648 to 2147483647*/
 typedef unsigned long uint32;       /* 0 to 4294967295 */
-typedef signed long long sint64;    
+typedef signed long long sint64;
 typedef unsigned long long uint64;
 typedef float float32;
 typedef double float64;
